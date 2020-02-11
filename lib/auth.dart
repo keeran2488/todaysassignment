@@ -23,6 +23,8 @@ class _LogInFormState extends State<LogInForm> {
   FormType _formType = FormType.login;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  FocusNode _emailFocus, _passwordFocus;
+
   void moveToRegister() {
     _formKey.currentState.reset();
     setState(() {
@@ -35,6 +37,22 @@ class _LogInFormState extends State<LogInForm> {
     setState(() {
       _formType = FormType.login;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _emailFocus = FocusNode();
+    _passwordFocus = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,6 +80,7 @@ class _LogInFormState extends State<LogInForm> {
         height: kDefaultPadding,
       ),
       CustomTextForm(
+        focus: _emailFocus,
         title: 'Email',
         inputAction: TextInputAction.next,
         validator: (input) {
@@ -73,11 +92,16 @@ class _LogInFormState extends State<LogInForm> {
           return null;
         },
         onSaved: (input) => _email = input,
+        onNext: (x){
+          FocusScope.of(context).unfocus();
+          FocusScope.of(context).requestFocus(_passwordFocus);
+        },
       ),
       SizedBox(
         height: kDefaultPadding,
       ),
       CustomTextForm(
+        focus: _passwordFocus,
         title: 'Password',
         inputAction: TextInputAction.go,
         validator: (input) {
@@ -87,6 +111,10 @@ class _LogInFormState extends State<LogInForm> {
           return null;
         },
         onSaved: (input) => _password = input,
+        onNext: (x){
+          FocusScope.of(context).unfocus();
+          signIn();
+        },
       ),
       SizedBox(
         height: kDefaultPadding,

@@ -8,14 +8,17 @@ class CustomTextForm extends StatelessWidget {
   final Function validator;
   final String title;
   final TextInputAction inputAction;
+  final FocusNode focus;
+  final Function onNext;
 
-  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title, @required this.inputAction});
+  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title, @required this.inputAction, @required this.focus, this.onNext});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: kDefaultPadding * 1.5),
       child: TextFormField(
+        focusNode: focus,
         validator: this.validator,
         onSaved: this.onSaved,
         textInputAction: this.inputAction,
@@ -30,6 +33,8 @@ class CustomTextForm extends StatelessWidget {
           ),
           hasFloatingPlaceholder: false,
         ),
+
+        onFieldSubmitted: this.onNext,
       ),
     );
   }
