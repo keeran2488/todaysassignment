@@ -41,26 +41,29 @@ class _LogInFormState extends State<LogInForm> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              children: buildInputs() + buildButtons(),
-            ),
-          ),
-        ));
+      child: Form(
+        key: _formKey,
+        child: ListView(
+          children: buildInputs() + buildButtons(),
+        ),
+      ),
+    ));
   }
 
   List<Widget> buildInputs() {
     return <Widget>[
       Image(
         width: double.maxFinite,
-        image: NetworkImage('https://media.istockphoto.com/photos/rocky-mountain-peak-picture-id904856396?k=6&m=904856396&s=612x612&w=0&h=ZVZpbtWCmkHLN6cGpRtGdBIhwZZsMwXn5xSL3ThqslU='),
+        image: NetworkImage(
+            'https://i.ebayimg.com/images/g/gSUAAOSwACFdYOTv/s-l400.jpg'
+        ),
       ),
       SizedBox(
         height: kDefaultPadding,
       ),
       CustomTextForm(
         title: 'Email',
+        inputAction: TextInputAction.next,
         validator: (input) {
           if (input.isEmpty) {
             return "Please type an email.";
@@ -76,6 +79,7 @@ class _LogInFormState extends State<LogInForm> {
       ),
       CustomTextForm(
         title: 'Password',
+        inputAction: TextInputAction.go,
         validator: (input) {
           if (input.isEmpty) {
             return 'Your password needs to be atleast 6 characters.';
@@ -99,7 +103,12 @@ class _LogInFormState extends State<LogInForm> {
         ),
         FlatButton(
           onPressed: moveToRegister,
-          child: Text("Doesn't have account? Sign up"),
+          child: Text(
+            "Doesn't have account? Sign up",
+            style: TextStyle(
+              color: Theme.of(context).errorColor,
+            ),
+          ),
         )
       ];
     }
@@ -110,7 +119,12 @@ class _LogInFormState extends State<LogInForm> {
       ),
       FlatButton(
         onPressed: moveToSignIn,
-        child: Text("Already have account? Sign in"),
+        child: Text(
+          "Already have account? Sign in",
+          style: TextStyle(
+            color: Theme.of(context).errorColor,
+          ),
+        ),
       )
     ];
   }
@@ -120,38 +134,39 @@ class _LogInFormState extends State<LogInForm> {
     if (formState.validate()) {
       formState.save();
       try {
-        if(_formType == FormType.login){
+        if (_formType == FormType.login) {
           FirebaseUser user = (await FirebaseAuth.instance
-                  .signInWithEmailAndPassword(email: _email, password: _password))
+                  .signInWithEmailAndPassword(
+                      email: _email, password: _password))
               .user;
           //Navigate to home
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Home(user: user)));
-        }else{
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Home(user: user)));
+        } else {
           FirebaseUser user = (await FirebaseAuth.instance
-                  .createUserWithEmailAndPassword(email: _email, password: _password))
+                  .createUserWithEmailAndPassword(
+                      email: _email, password: _password))
               .user;
           print("User ID: ${user.email}");
         }
       } catch (e) {
         print("Error: ${e.message}");
         showDialog(
-          context: context,
-          builder: (BuildContext context){
-            return AlertDialog(
-              title: Text("Try again!"),
-              content: Text("${e.message}"),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: (){
-                    Navigator.of(context).pop();
-                  }, 
-                  child: Text("OK")
-                ),
-              ],
-              elevation: 24.0,
-          );
-        });
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Try again!"),
+                content: Text("${e.message}"),
+                actions: <Widget>[
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("OK")),
+                ],
+                elevation: 24.0,
+              );
+            });
       }
     }
   }

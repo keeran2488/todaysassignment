@@ -7,8 +7,9 @@ class CustomTextForm extends StatelessWidget {
   final Function onSaved;
   final Function validator;
   final String title;
+  final TextInputAction inputAction;
 
-  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title});
+  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title, @required this.inputAction});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class CustomTextForm extends StatelessWidget {
       child: TextFormField(
         validator: this.validator,
         onSaved: this.onSaved,
-
+        textInputAction: this.inputAction,
         decoration: InputDecoration(
           labelText: this.title,
           border: OutlineInputBorder(

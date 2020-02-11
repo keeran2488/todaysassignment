@@ -60,9 +60,6 @@ class MyApp extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return MaterialApp(
-//      darkTheme: ThemeData.dark().copyWith(
-//        primaryColor: Colors.black,
-//      ),
       home: LogInForm(),
     );
   }
