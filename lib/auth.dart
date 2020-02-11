@@ -4,6 +4,8 @@ import 'dart:async';
 
 import 'package:todaysassignment/functions/constants.dart';
 
+import 'package:todaysassignment/custom_plugin/inputfield.dart';
+
 class LogInForm extends StatefulWidget {
   @override
   _LogInFormState createState() => _LogInFormState();
@@ -47,7 +49,6 @@ class _LogInFormState extends State<LogInForm> {
                 horizontal: kDefaultPadding * 2,
               ),
               children: buildInputs() + buildButtons(),
-
             ),
           ),
         ));
@@ -55,7 +56,30 @@ class _LogInFormState extends State<LogInForm> {
 
   List<Widget> buildInputs() {
     return <Widget>[
-      TextFormField(
+      SizedBox(
+        height: kDefaultPadding,
+      ),
+//      TextFormField(
+//        validator: (input) {
+//          if (input.isEmpty) {
+//            return "Please type an email.";
+//          } else if (!input.contains("@")) {
+//            return "Enter a valid email.";
+//          }
+//          return null;
+//        },
+//        onSaved: (input) => _email = input,
+//        decoration: InputDecoration(
+//          labelText: 'Email',
+//          border: OutlineInputBorder(),
+//          contentPadding: EdgeInsets.symmetric(
+//            vertical: 0,
+//            horizontal: kDefaultPadding,
+//          ),
+//        ),
+//      ),
+      CustomTextForm(
+        title: 'Email',
         validator: (input) {
           if (input.isEmpty) {
             return "Please type an email.";
@@ -65,9 +89,9 @@ class _LogInFormState extends State<LogInForm> {
           return null;
         },
         onSaved: (input) => _email = input,
-        decoration: InputDecoration(labelText: 'Email'),
       ),
-      TextFormField(
+      CustomTextForm(
+        title: 'Password',
         validator: (input) {
           if (input.isEmpty) {
             return 'Your password needs to be atleast 6 characters.';
@@ -75,8 +99,6 @@ class _LogInFormState extends State<LogInForm> {
           return null;
         },
         onSaved: (input) => _password = input,
-        decoration: InputDecoration(labelText: 'Password'),
-        obscureText: true,
       ),
       SizedBox(
         height: kDefaultPadding,
@@ -88,6 +110,10 @@ class _LogInFormState extends State<LogInForm> {
     if (_formType == FormType.login) {
       return <Widget>[
         RaisedButton(
+          shape: BeveledRectangleBorder(
+            borderRadius:
+                BorderRadius.all(Radius.circular(kDefaultPadding / 3)),
+          ),
           onPressed: signIn,
           child: Text("Sign in"),
         ),
@@ -99,6 +125,9 @@ class _LogInFormState extends State<LogInForm> {
     }
     return <Widget>[
       RaisedButton(
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(kDefaultPadding / 3)),
+        ),
         onPressed: signIn,
         child: Text("Sign up"),
       ),
