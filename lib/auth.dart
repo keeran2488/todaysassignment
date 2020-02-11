@@ -123,18 +123,38 @@ class _LogInFormState extends State<LogInForm> {
     if (formState.validate()) {
       formState.save();
       try {
-        FirebaseUser user = (await FirebaseAuth.instance
-                .signInWithEmailAndPassword(email: _email, password: _password))
-            .user;
-        //Navigate to home
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home(user: user)));
+        if(_formType == FormType.login){
+          FirebaseUser user = (await FirebaseAuth.instance
+                  .signInWithEmailAndPassword(email: _email, password: _password))
+              .user;
+          //Navigate to home
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Home(user: user)));
+        }else{
+          FirebaseUser user = (await FirebaseAuth.instance
+                  .createUserWithEmailAndPassword(email: _email, password: _password))
+              .user;
+          print("User ID: ${user.email}");
+        }
       } catch (e) {
-        AlertDialog(
-          title: Text("Error occured!"),
-          content: Text("${e.message}"),
-          elevation: 24.0,
-        );
+        print("Error: ${e.message}");
+        showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return AlertDialog(
+              title: Text("Try again!"),
+              content: Text("${e.message}"),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  }, 
+                  child: Text("OK")
+                ),
+              ],
+              elevation: 24.0,
+          );
+        });
       }
     }
   }
