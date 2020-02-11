@@ -12,15 +12,22 @@ class CustomTextForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: this.validator,
-      onSaved: this.onSaved,
-      decoration: InputDecoration(
-        labelText: this.title,
-        border: OutlineInputBorder(),
-        contentPadding: EdgeInsets.symmetric(
-          vertical: 0,
-          horizontal: kDefaultPadding,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: kDefaultPadding * 1.5),
+      child: TextFormField(
+        validator: this.validator,
+        onSaved: this.onSaved,
+
+        decoration: InputDecoration(
+          labelText: this.title,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(kDefaultPadding * 2),
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 0,
+            horizontal: kDefaultPadding,
+          ),
+          hasFloatingPlaceholder: false,
         ),
       ),
     );

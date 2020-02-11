@@ -6,6 +6,8 @@ import 'package:todaysassignment/functions/constants.dart';
 
 import 'package:todaysassignment/custom_plugin/inputfield.dart';
 
+import 'custom_plugin/button.dart';
+
 class LogInForm extends StatefulWidget {
   @override
   _LogInFormState createState() => _LogInFormState();
@@ -45,9 +47,6 @@ class _LogInFormState extends State<LogInForm> {
           child: Form(
             key: _formKey,
             child: ListView(
-              padding: EdgeInsets.symmetric(
-                horizontal: kDefaultPadding * 2,
-              ),
               children: buildInputs() + buildButtons(),
             ),
           ),
@@ -56,28 +55,13 @@ class _LogInFormState extends State<LogInForm> {
 
   List<Widget> buildInputs() {
     return <Widget>[
+      Image(
+        width: double.maxFinite,
+        image: NetworkImage('https://media.istockphoto.com/photos/rocky-mountain-peak-picture-id904856396?k=6&m=904856396&s=612x612&w=0&h=ZVZpbtWCmkHLN6cGpRtGdBIhwZZsMwXn5xSL3ThqslU='),
+      ),
       SizedBox(
         height: kDefaultPadding,
       ),
-//      TextFormField(
-//        validator: (input) {
-//          if (input.isEmpty) {
-//            return "Please type an email.";
-//          } else if (!input.contains("@")) {
-//            return "Enter a valid email.";
-//          }
-//          return null;
-//        },
-//        onSaved: (input) => _email = input,
-//        decoration: InputDecoration(
-//          labelText: 'Email',
-//          border: OutlineInputBorder(),
-//          contentPadding: EdgeInsets.symmetric(
-//            vertical: 0,
-//            horizontal: kDefaultPadding,
-//          ),
-//        ),
-//      ),
       CustomTextForm(
         title: 'Email',
         validator: (input) {
@@ -89,6 +73,9 @@ class _LogInFormState extends State<LogInForm> {
           return null;
         },
         onSaved: (input) => _email = input,
+      ),
+      SizedBox(
+        height: kDefaultPadding,
       ),
       CustomTextForm(
         title: 'Password',
@@ -109,13 +96,9 @@ class _LogInFormState extends State<LogInForm> {
   List<Widget> buildButtons() {
     if (_formType == FormType.login) {
       return <Widget>[
-        RaisedButton(
-          shape: BeveledRectangleBorder(
-            borderRadius:
-                BorderRadius.all(Radius.circular(kDefaultPadding / 3)),
-          ),
+        CustomButton(
+          title: 'Sign In',
           onPressed: signIn,
-          child: Text("Sign in"),
         ),
         FlatButton(
           onPressed: moveToRegister,
@@ -124,12 +107,9 @@ class _LogInFormState extends State<LogInForm> {
       ];
     }
     return <Widget>[
-      RaisedButton(
-        shape: BeveledRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(kDefaultPadding / 3)),
-        ),
+      CustomButton(
+        title: 'Sign Up',
         onPressed: signIn,
-        child: Text("Sign up"),
       ),
       FlatButton(
         onPressed: moveToSignIn,
