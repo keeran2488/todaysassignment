@@ -2,12 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:todaysassignment/functions/constants.dart';
+
 class LogInForm extends StatefulWidget {
   @override
   _LogInFormState createState() => _LogInFormState();
 }
 
-enum FormType{
+enum FormType {
   login,
   register,
 }
@@ -17,16 +19,16 @@ class _LogInFormState extends State<LogInForm> {
   FormType _formType = FormType.login;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void moveToRegister(){
+  void moveToRegister() {
     _formKey.currentState.reset();
-    setState((){
+    setState(() {
       _formType = FormType.register;
     });
   }
 
-  void moveToSignIn(){
+  void moveToSignIn() {
     _formKey.currentState.reset();
-    setState((){
+    setState(() {
       _formType = FormType.login;
     });
   }
@@ -34,65 +36,66 @@ class _LogInFormState extends State<LogInForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Login Form"),
-      ),
-      body: Container(
-        padding: EdgeInsets.fromLTRB(30.0, 30.0, 40.0, 30.0),
-        child: Form(
-        key: _formKey,
-        child: Column(
-            children: buildInputs() + buildButtons()
+        appBar: AppBar(
+          title: Text("Login Form"),
         ),
-      ),
-    )
-    );
+        body: Container(
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              padding: EdgeInsets.symmetric(
+                horizontal: kDefaultPadding * 2,
+              ),
+              children: buildInputs() + buildButtons(),
+
+            ),
+          ),
+        ));
   }
 
-  List<Widget> buildInputs(){
+  List<Widget> buildInputs() {
     return <Widget>[
       TextFormField(
-        validator: (input){
-          if(input.isEmpty) {
+        validator: (input) {
+          if (input.isEmpty) {
             return "Please type an email.";
-          }else if(!input.contains("@")){
+          } else if (!input.contains("@")) {
             return "Enter a valid email.";
           }
           return null;
         },
         onSaved: (input) => _email = input,
-        decoration: InputDecoration(
-            labelText: 'Email'
-        ),
+        decoration: InputDecoration(labelText: 'Email'),
       ),
       TextFormField(
-        validator: (input){
-          if(input.isEmpty){
+        validator: (input) {
+          if (input.isEmpty) {
             return 'Your password needs to be atleast 6 characters.';
           }
           return null;
         },
         onSaved: (input) => _password = input,
-        decoration: InputDecoration(
-            labelText: 'Password'
-        ),
+        decoration: InputDecoration(labelText: 'Password'),
         obscureText: true,
+      ),
+      SizedBox(
+        height: kDefaultPadding,
       ),
     ];
   }
 
-  List<Widget> buildButtons(){
-    if(_formType == FormType.login){
+  List<Widget> buildButtons() {
+    if (_formType == FormType.login) {
       return <Widget>[
-      RaisedButton(
-        onPressed: signIn,
-        child: Text("Sign in"),
-      ),
-      FlatButton(
-        onPressed: moveToRegister, 
-        child: Text("Doesn't have account? Sign up"),
-      )
-    ];
+        RaisedButton(
+          onPressed: signIn,
+          child: Text("Sign in"),
+        ),
+        FlatButton(
+          onPressed: moveToRegister,
+          child: Text("Doesn't have account? Sign up"),
+        )
+      ];
     }
     return <Widget>[
       RaisedButton(
@@ -100,21 +103,24 @@ class _LogInFormState extends State<LogInForm> {
         child: Text("Sign up"),
       ),
       FlatButton(
-        onPressed: moveToSignIn, 
+        onPressed: moveToSignIn,
         child: Text("Already have account? Sign in"),
       )
     ];
-}
+  }
 
-  Future<void> signIn() async{
+  Future<void> signIn() async {
     final formState = _formKey.currentState;
-    if(formState.validate()){
+    if (formState.validate()) {
       formState.save();
-      try{
-        FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
+      try {
+        FirebaseUser user = (await FirebaseAuth.instance
+                .signInWithEmailAndPassword(email: _email, password: _password))
+            .user;
         //Navigate to home
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Home(user: user)));
-      }catch(e) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home(user: user)));
+      } catch (e) {
         AlertDialog(
           title: Text("Error occured!"),
           content: Text("${e.message}"),
@@ -126,7 +132,7 @@ class _LogInFormState extends State<LogInForm> {
 }
 
 class Home extends StatefulWidget {
-  const Home({Key key, @required this.user}) : super(key: key) ;
+  const Home({Key key, @required this.user}) : super(key: key);
   final FirebaseUser user;
 
   @override
@@ -143,5 +149,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-
