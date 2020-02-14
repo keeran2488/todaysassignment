@@ -72,9 +72,7 @@ class _LogInFormState extends State<LogInForm> {
     return <Widget>[
       Image(
         width: double.maxFinite,
-        image: NetworkImage(
-            'https://i.ebayimg.com/images/g/gSUAAOSwACFdYOTv/s-l400.jpg'
-        ),
+        image: AssetImage('assets/images/hw.png')
       ),
       SizedBox(
         height: kDefaultPadding,
