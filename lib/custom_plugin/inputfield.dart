@@ -10,8 +10,9 @@ class CustomTextForm extends StatelessWidget {
   final TextInputAction inputAction;
   final FocusNode focus;
   final Function onNext;
+  final bool obscureText;
 
-  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title, @required this.inputAction, @required this.focus, this.onNext});
+  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title, @required this.inputAction, @required this.focus, this.obscureText ,this.onNext});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,7 @@ class CustomTextForm extends StatelessWidget {
       child: TextFormField(
         focusNode: focus,
         validator: this.validator,
+        obscureText: this.obscureText,
         onSaved: this.onSaved,
         textInputAction: this.inputAction,
         decoration: InputDecoration(

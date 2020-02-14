@@ -83,6 +83,7 @@ class _LogInFormState extends State<LogInForm> {
         focus: _emailFocus,
         title: 'Email',
         inputAction: TextInputAction.next,
+        obscureText: false,
         validator: (input) {
           if (input.isEmpty) {
             return "Please type an email.";
@@ -104,6 +105,7 @@ class _LogInFormState extends State<LogInForm> {
         focus: _passwordFocus,
         title: 'Password',
         inputAction: TextInputAction.go,
+        obscureText: true,
         validator: (input) {
           if (input.isEmpty) {
             return 'Your password needs to be atleast 6 characters.';
@@ -167,9 +169,7 @@ class _LogInFormState extends State<LogInForm> {
                   .signInWithEmailAndPassword(
                       email: _email, password: _password))
               .user;
-          //Navigate to home
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Home(user: user)));
+          print("User ID: ${user.email}");
         } else {
           FirebaseUser user = (await FirebaseAuth.instance
                   .createUserWithEmailAndPassword(
@@ -197,24 +197,5 @@ class _LogInFormState extends State<LogInForm> {
             });
       }
     }
-  }
-}
-
-class Home extends StatefulWidget {
-  const Home({Key key, @required this.user}) : super(key: key);
-  final FirebaseUser user;
-
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Welcome ${widget.user.email}'),
-      ),
-    );
   }
 }
