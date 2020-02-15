@@ -22,6 +22,7 @@ class _UserProfileState extends State<UserProfile> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Welcome User"),
+        elevation: 0.0,
       ),
       body: Container(
         child: Form(

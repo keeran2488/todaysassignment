@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                         title: 'Profile',
                         icon: Icons.account_circle,
                         onclick: (){
-
+                          Navigator.of(context).pushNamed('/user');
                         },
                       ),
                       DrawerButton(
@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                         icon: Icons.account_circle,
                         title: 'Profile',
                         onClick: (){
-
+                          Navigator.of(context).pushNamed('/user');
                         },
                       ),
                       DashboardButton(

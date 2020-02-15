@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/assignment': (context) => GetAssignments(),
         '/routine': (context) => Routine(),
+        '/user': (context) => UserProfile(),
       },
     );
   }
