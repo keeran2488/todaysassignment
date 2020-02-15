@@ -12,6 +12,7 @@ class Routine extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: Text('Routine'),
+        elevation: 0.0,
       ),
       body: StreamBuilder(
         stream: Firestore.instance.collection('Routine').document(day).collection("Sem V").snapshots(),

@@ -126,6 +126,7 @@ class _HomePageState extends State<HomePage> {
           ),
           appBar: AppBar(
             title: Text("Todays Assignment"),
+            elevation: 0.0,
           ),
           body: ListView(
             children: <Widget>[

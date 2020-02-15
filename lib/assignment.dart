@@ -139,6 +139,7 @@ class _GetAssignmentsState extends State<GetAssignments> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: Text('Assignments'),
+        elevation: 0.0,
       ),
       body: StreamBuilder(
         stream: Firestore.instance.collection('Assignments').orderBy("created", descending: true).snapshots(),
