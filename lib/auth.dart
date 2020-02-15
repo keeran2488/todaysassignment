@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:todaysassignment/functions/constants.dart';
 
 import 'package:todaysassignment/custom_plugin/inputfield.dart';
+import 'package:todaysassignment/root_page.dart';
 
 import 'custom_plugin/button.dart';
 
@@ -137,7 +138,20 @@ class _LogInFormState extends State<LogInForm> {
               color: Theme.of(context).errorColor,
             ),
           ),
-        )
+        ),
+//        FlatButton(
+//          onPressed: (){
+//            showDialog(context: context, child: AlertDialog(
+//              content: Container(
+//                height: 100,
+//                child: Center(
+//                  child: CircularProgressIndicator(),
+//                ),
+//              ),
+//            ));
+//          },
+//          child: Text('test'),
+//        ),
       ];
     }
     return <Widget>[
@@ -158,22 +172,41 @@ class _LogInFormState extends State<LogInForm> {
   }
 
   Future<void> signIn() async {
+    AlertDialog(
+      content: Dialog(
+        child: Container(
+          child: Text('test'),
+        ),
+      ),
+    );
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
+
       try {
+        showDialog(context: context, child: AlertDialog(
+          title: Text('Please wait...'),
+          content: Container(
+            height: 100,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        ));
         if (_formType == FormType.login) {
           FirebaseUser user = (await FirebaseAuth.instance
                   .signInWithEmailAndPassword(
                       email: _email, password: _password))
               .user;
           print("User ID: ${user.email}");
+          Navigator.of(context).pushReplacementNamed('/home');
         } else {
           FirebaseUser user = (await FirebaseAuth.instance
                   .createUserWithEmailAndPassword(
                       email: _email, password: _password))
               .user;
           print("User ID: ${user.email}");
+        Navigator.pushReplacementNamed(context, '/home');
         }
       } catch (e) {
         print("Error: ${e.message}");

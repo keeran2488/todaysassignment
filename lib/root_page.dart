@@ -26,13 +26,22 @@ class _RootPageState extends State<RootPage> {
     });
   }
 
+  void _signedOut(){
+    setState(() {
+      authStatus = AuthStatus.notSignedIn;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     switch(authStatus){
       case AuthStatus.notSignedIn:
         return LogInForm();
       case AuthStatus.signedIn:
-        return HomePage();
+        return HomePage(
+          onSignedOut: _signedOut,
+        );
     }
     return null;
   }

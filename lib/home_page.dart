@@ -6,15 +6,24 @@ import 'package:todaysassignment/routine.dart';
 import 'assignment.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({this.onSignedOut});
+  final VoidCallback onSignedOut;
+
+  Future<void> signOut(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pushReplacementNamed('/');
+    }catch(e){
+      print(e);
+    }
+  }
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-Future<void> signOut() async {
-  return FirebaseAuth.instance.signOut();
-}
-
 class _HomePageState extends State<HomePage> {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,7 +48,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   title: Text("Sign Out"),
-                  onTap: signOut,
+                  onTap: (){
+                    widget.signOut(context);
+                  },
                 ),
               ],
             ),

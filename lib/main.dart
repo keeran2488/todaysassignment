@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todaysassignment/root_page.dart';
+import 'home_page.dart';
 import 'routine.dart';
 import 'assignment.dart';
 import 'auth.dart';
@@ -14,7 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: RootPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => RootPage(),
+        '/home': (context) => HomePage(),
+      },
     );
   }
 }
