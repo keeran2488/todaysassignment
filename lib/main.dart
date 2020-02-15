@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:todaysassignment/root_page.dart';
-import 'home_page.dart';
-import 'routine.dart';
+import 'package:todaysassignment/routine.dart';
+import 'package:todaysassignment/user_profile.dart';
 import 'assignment.dart';
-import 'auth.dart';
+import 'home_page.dart';
+
 
 void main(){
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

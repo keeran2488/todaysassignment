@@ -12,7 +12,7 @@ class CustomTextForm extends StatelessWidget {
   final Function onNext;
   final bool obscureText;
 
-  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title, @required this.inputAction, @required this.focus, this.obscureText ,this.onNext});
+  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title, @required this.inputAction, this.focus, this.obscureText ,this.onNext});
 
   @override
   Widget build(BuildContext context) {
