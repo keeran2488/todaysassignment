@@ -63,17 +63,23 @@ class _HomePageState extends State<HomePage> {
                       DrawerButton(
                         title: 'Dashboard',
                         icon: Icons.apps,
-                        onclick: () {},
+                        onclick: () {
+                          Navigator.of(context).pushNamed('/');
+                        },
                       ),
                       DrawerButton(
                         title: 'Routine',
                         icon: Icons.calendar_today,
-                        onclick: () {},
+                        onclick: () {
+                          Navigator.of(context).pushNamed('/routine');
+                        },
                       ),
                       DrawerButton(
                         title: 'Assignment',
                         icon: Icons.assignment,
-                        onclick: () {},
+                        onclick: () {
+                          Navigator.of(context).pushNamed('/assignment');
+                        },
                       ),
                       DrawerButton(
                         title: 'Notice',
@@ -112,20 +118,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           appBar: AppBar(
-//            bottom: TabBar(
-//              tabs: <Widget>[
-//                Tab(text: 'Home'),
-//                Tab(text: 'Routine'),
-//              ],
-//            ),
             title: Text("Todays Assignment"),
           ),
-//          body: TabBarView(
-//            children: <Widget>[
-//              GetAssignments(),
-//              Routine(),
-//            ],
-//          ),
           body: ListView(
             children: <Widget>[
               ListTile(
