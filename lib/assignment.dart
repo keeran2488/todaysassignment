@@ -136,12 +136,16 @@ class _GetAssignmentsState extends State<GetAssignments> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        title: Text('Assignments'),
+      ),
       body: StreamBuilder(
         stream: Firestore.instance.collection('Assignments').orderBy("created", descending: true).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return new Center(
-              child: Text("Loading....."),
+              child: CircularProgressIndicator(),
             );
           return ListView.separated(
               separatorBuilder: (context, index) {

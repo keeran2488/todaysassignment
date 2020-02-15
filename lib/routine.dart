@@ -9,12 +9,16 @@ class Routine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        title: Text('Routine'),
+      ),
       body: StreamBuilder(
         stream: Firestore.instance.collection('Routine').document(day).collection("Sem V").snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(
-              child: Text("Loading"),
+              child: CircularProgressIndicator(),
             );
           return ListView.separated(
               separatorBuilder: (context, index) {
