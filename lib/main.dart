@@ -1,12 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:todaysassignment/root_page.dart';
 import 'home_page.dart';
 import 'routine.dart';
 import 'assignment.dart';
 import 'auth.dart';
 
-void main() => runApp(MyApp());
+void main(){
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
+  runApp(MyApp());
+}
 
 
 class MyApp extends StatelessWidget {

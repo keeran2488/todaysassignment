@@ -18,7 +18,7 @@ class Routine extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(
-              child: Text("Loading"),
+              child: CircularProgressIndicator(),
             );
           return ListView.separated(
               separatorBuilder: (context, index) {

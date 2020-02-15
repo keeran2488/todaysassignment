@@ -145,7 +145,7 @@ class _GetAssignmentsState extends State<GetAssignments> {
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return new Center(
-              child: Text("Loading....."),
+              child: CircularProgressIndicator(),
             );
           return ListView.separated(
               separatorBuilder: (context, index) {

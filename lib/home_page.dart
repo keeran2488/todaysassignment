@@ -3,9 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todaysassignment/custom_plugin/dashboard_menu_button.dart';
 import 'package:todaysassignment/functions/constants.dart';
-import 'package:todaysassignment/routine.dart';
-
-import 'assignment.dart';
 import 'custom_plugin/drawer_button.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,6 +23,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  bool _profileEdit = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                           } else {
                             return UserAccountsDrawerHeader(
                               accountName:
-                                  Text(snapshot.data.displayName.toString()),
+                                  Text(''),
                               accountEmail:
                                   Text(snapshot.data.email.toString()),
                               currentAccountPicture: CircleAvatar(
@@ -65,6 +65,13 @@ class _HomePageState extends State<HomePage> {
                         icon: Icons.apps,
                         onclick: () {
                           Navigator.of(context).pushNamed('/');
+                        },
+                      ),
+                      DrawerButton(
+                        title: 'Profile',
+                        icon: Icons.account_circle,
+                        onclick: (){
+
                         },
                       ),
                       DrawerButton(
