@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
@@ -132,7 +133,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               ListTile(
                 title: Text('Farewell Party'),
-                subtitle: Text('2020-02-20'),
+                subtitle: Text('2020-10-08'),
                 leading: Icon(Icons.notifications),
               ),
               ListTile(
