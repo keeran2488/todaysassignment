@@ -10,15 +10,17 @@ class CustomTextForm extends StatelessWidget {
   final TextInputAction inputAction;
   final FocusNode focus;
   final Function onNext;
+  final String initialValue;
   final bool obscureText;
 
-  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title, @required this.inputAction, this.focus, this.obscureText ,this.onNext});
+  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title, this.initialValue, this.inputAction, this.focus, this.obscureText ,this.onNext});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: kDefaultPadding * 1.5),
       child: TextFormField(
+        initialValue: this.initialValue,
         focusNode: focus,
         validator: this.validator,
         obscureText: this.obscureText,
