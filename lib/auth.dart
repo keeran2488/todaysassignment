@@ -206,7 +206,7 @@ class _LogInFormState extends State<LogInForm> {
                       email: _email, password: _password))
               .user;
           print("User ID: ${user.email}");
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/newUser');
         }
       } catch (e) {
         print("Error: ${e.message}");
