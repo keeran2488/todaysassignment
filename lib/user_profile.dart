@@ -215,10 +215,36 @@ class UserProfileNew extends StatefulWidget {
 }
 
 class _UserProfileNewState extends State<UserProfileNew> {
-  String _firstName, _lastName, _section, _group;
+  String _firstName, _lastName, _section, _group, _uid;
+  File _image;
 
   final db = Firestore.instance;
   final _firebaseAuth = FirebaseAuth.instance;
+
+  Future getUserDetails() async {
+    FirebaseUser userS = await _firebaseAuth.currentUser();
+    _uid = userS.uid;
+    DocumentSnapshot ds = await db.collection("User").document(_uid).get();
+    return ds;
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+      print("Image path $_image");
+    });
+  }
+
+  Future uploadPic(BuildContext context) async{
+    FirebaseUser userS = await _firebaseAuth.currentUser();
+    _uid = userS.uid;
+    String fileName = basename(_image.path);
+    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child("User/$_uid/$fileName");
+    final StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+    StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
+
+  }
 
   final GlobalKey<FormState> _newUserProfileFormKey = GlobalKey<FormState>();
   @override
@@ -232,6 +258,34 @@ class _UserProfileNewState extends State<UserProfileNew> {
             key: _newUserProfileFormKey,
             child: ListView(
               children: <Widget>[
+                SizedBox(
+                  height: kDefaultPadding,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: CircleAvatar(
+                    radius: 100.0,
+                    child: ClipOval(
+                      child: new SizedBox(
+                          width: 180.0,
+                          height: 180.0,
+                          child: (_image!=null)?Image.file(_image,fit: BoxFit.fill,):
+                          Image.network(
+                            "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                            fit: BoxFit.fill,
+                          )
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                    padding: EdgeInsets.only(left: 200.0),
+                    child: IconButton(
+                      icon: Icon(Icons.photo_camera, size: 30.0),
+                      onPressed: (){
+                        getImage();
+                      },
+                    )),
                 SizedBox(
                   height: kDefaultPadding,
                 ),
