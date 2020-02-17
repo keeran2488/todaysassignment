@@ -42,7 +42,6 @@ class _LogInFormState extends State<LogInForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _emailFocus = FocusNode();
     _passwordFocus = FocusNode();
@@ -50,7 +49,6 @@ class _LogInFormState extends State<LogInForm> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _emailFocus.dispose();
     _passwordFocus.dispose();
     super.dispose();
