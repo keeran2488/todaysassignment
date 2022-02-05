@@ -38,13 +38,14 @@ class _UserProfileState extends State<UserProfile> {
     });
   }
 
-  Future uploadPic(BuildContext context) async{
+  Future uploadPic(BuildContext context) async {
     FirebaseUser userS = await _firebaseAuth.currentUser();
     _uid = userS.uid;
     String fileName = basename(_image.path);
-    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child("User/$_uid/$fileName");
+    StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child("User/$_uid/$fileName");
     final StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-    StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
   }
 
   @override
@@ -64,54 +65,56 @@ class _UserProfileState extends State<UserProfile> {
               } else {
                 return Container(
                   child: Form(
-                    key: _userProfileFormKey,
-                    child: ListView(
-                      children: <Widget>[
+                      key: _userProfileFormKey,
+                      child: ListView(children: <Widget>[
                         SizedBox(
                           height: kDefaultPadding,
                         ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: CircleAvatar(
-                          radius: 100.0,
-                          child: ClipOval(
-                            child: new SizedBox(
-                              width: 180.0,
-                              height: 180.0,
-                              child: (_image!=null)?Image.file(_image,fit: BoxFit.fill,):
-                                  Image.network(
-                                    "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                    fit: BoxFit.fill,
-                                  )
+                        Align(
+                          alignment: Alignment.center,
+                          child: CircleAvatar(
+                            radius: 100.0,
+                            child: ClipOval(
+                              child: new SizedBox(
+                                  width: 180.0,
+                                  height: 180.0,
+                                  child: (_image != null)
+                                      ? Image.file(
+                                          _image,
+                                          fit: BoxFit.fill,
+                                        )
+                                      : Image.network(
+                                          "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                          fit: BoxFit.fill,
+                                        )),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 200.0),
-                        child: IconButton(
-                            icon: Icon(Icons.photo_camera, size: 30.0),
-                          onPressed: (){
-                              getImage();
+                        Padding(
+                            padding: EdgeInsets.only(left: 200.0),
+                            child: IconButton(
+                              icon: Icon(Icons.photo_camera, size: 30.0),
+                              onPressed: () {
+                                getImage();
+                              },
+                            )),
+                        SizedBox(
+                          height: kDefaultPadding,
+                        ),
+                        CustomTextForm(
+                          initialValue: snapshot.data["First Name"],
+                          title: 'First Name',
+                          obscureText: false,
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return "Please enter your first name.";
+                            } else if (!input.contains(RegExp(r'[a-zA-Z]'))) {
+                              return "Enter a valid name.";
+                            }
+                            return null;
                           },
-                      )),
-                      SizedBox(
-                      height: kDefaultPadding,
-                    ),
-                    CustomTextForm(
-                      initialValue: snapshot.data["First Name"],
-                      title: 'First Name',
-                      obscureText: false,
-                      validator: (input) {
-                        if (input.isEmpty) {
-                          return "Please enter your first name.";
-                        } else if (!input.contains(RegExp(r'[a-zA-Z]'))) {
-                          return "Enter a valid name.";
-                        }
-                        return null;
-                      },
-                      onSaved: (input) => _firstName = input,
-                    ),
+                          onSaved: (input) => _firstName = input,
+                        ),
                         SizedBox(
                           height: kDefaultPadding,
                         ),
@@ -144,7 +147,8 @@ class _UserProfileState extends State<UserProfile> {
                             }
                             return null;
                           },
-                          onSaved: (input) => _section = input.toString().toUpperCase(),
+                          onSaved: (input) =>
+                              _section = input.toString().toUpperCase(),
                         ),
                         SizedBox(
                           height: kDefaultPadding,
@@ -161,19 +165,18 @@ class _UserProfileState extends State<UserProfile> {
                             }
                             return null;
                           },
-                          onSaved: (input) => _group = input.toString().toUpperCase(),
+                          onSaved: (input) =>
+                              _group = input.toString().toUpperCase(),
                         ),
                         SizedBox(
                           height: kDefaultPadding,
                         ),
                         CustomButton(
-                            onPressed: (){
+                            onPressed: () {
                               updateForm(context);
                             },
-                            title: 'Update'
-                        )
-                  ])
-                  ),
+                            title: 'Update')
+                      ])),
                 );
               }
             }));
@@ -184,16 +187,20 @@ class _UserProfileState extends State<UserProfile> {
     if (formState.validate()) {
       formState.save();
 
-      try{
-        showDialog(context: context, child: AlertDialog(
-          title: Text('Please wait...'),
-          content: Container(
-            height: 100,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ));
+      try {
+        showDialog(
+            context: context,
+            builder: (builder) {
+              return AlertDialog(
+                title: Text('Please wait...'),
+                content: Container(
+                  height: 100,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              );
+            });
         final FirebaseUser user = await _firebaseAuth.currentUser();
         await db.collection("User").document(user.uid).updateData({
           'First Name': _firstName,
@@ -202,7 +209,7 @@ class _UserProfileState extends State<UserProfile> {
           'Group': _group
         });
         Navigator.of(context).pushReplacementNamed("/user");
-      }catch(e){
+      } catch (e) {
         //exception handling
       }
     }
@@ -236,23 +243,23 @@ class _UserProfileNewState extends State<UserProfileNew> {
     });
   }
 
-  Future uploadPic(BuildContext context) async{
+  Future uploadPic(BuildContext context) async {
     FirebaseUser userS = await _firebaseAuth.currentUser();
     _uid = userS.uid;
     String fileName = basename(_image.path);
-    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child("User/$_uid/$fileName");
+    StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child("User/$_uid/$fileName");
     final StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-    StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
-
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
   }
 
   final GlobalKey<FormState> _newUserProfileFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Create user profile"),
-      ),
+        appBar: AppBar(
+          title: Text("Create user profile"),
+        ),
         body: Container(
           child: Form(
             key: _newUserProfileFormKey,
@@ -269,12 +276,15 @@ class _UserProfileNewState extends State<UserProfileNew> {
                       child: new SizedBox(
                           width: 180.0,
                           height: 180.0,
-                          child: (_image!=null)?Image.file(_image,fit: BoxFit.fill,):
-                          Image.network(
-                            "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                            fit: BoxFit.fill,
-                          )
-                      ),
+                          child: (_image != null)
+                              ? Image.file(
+                                  _image,
+                                  fit: BoxFit.fill,
+                                )
+                              : Image.network(
+                                  "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                  fit: BoxFit.fill,
+                                )),
                     ),
                   ),
                 ),
@@ -282,7 +292,7 @@ class _UserProfileNewState extends State<UserProfileNew> {
                     padding: EdgeInsets.only(left: 200.0),
                     child: IconButton(
                       icon: Icon(Icons.photo_camera, size: 30.0),
-                      onPressed: (){
+                      onPressed: () {
                         getImage();
                       },
                     )),
@@ -367,7 +377,7 @@ class _UserProfileNewState extends State<UserProfileNew> {
                 ),
                 CustomButton(
                   title: 'Save',
-                  onPressed: (){
+                  onPressed: () {
                     saveForm(context);
                   },
                 ),
@@ -382,16 +392,20 @@ class _UserProfileNewState extends State<UserProfileNew> {
     if (formState.validate()) {
       formState.save();
 
-      try{
-        showDialog(context: context, child: AlertDialog(
-          title: Text('Please wait...'),
-          content: Container(
-            height: 100,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ));
+      try {
+        showDialog(
+            context: context,
+            builder: (builder) {
+              return AlertDialog(
+                title: Text('Please wait...'),
+                content: Container(
+                  height: 100,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              );
+            });
         final FirebaseUser user = await _firebaseAuth.currentUser();
         await db.collection("User").document(user.uid).setData({
           'First Name': _firstName,
@@ -400,11 +414,9 @@ class _UserProfileNewState extends State<UserProfileNew> {
           'Group': _group
         });
         Navigator.of(context).pushReplacementNamed("/home");
-      }catch(e){
+      } catch (e) {
         //exception handling
       }
     }
   }
 }
-
-

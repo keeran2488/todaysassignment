@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todaysassignment/functions/constants.dart';
 
-
 class CustomTextForm extends StatelessWidget {
-
   final Function onSaved;
   final Function validator;
   final String title;
@@ -13,7 +11,15 @@ class CustomTextForm extends StatelessWidget {
   final String initialValue;
   final bool obscureText;
 
-  CustomTextForm({@required this.onSaved, @required this.validator, @required this.title, this.initialValue, this.inputAction, this.focus, this.obscureText ,this.onNext});
+  CustomTextForm(
+      {@required this.onSaved,
+      @required this.validator,
+      @required this.title,
+      this.initialValue,
+      this.inputAction,
+      this.focus,
+      this.obscureText,
+      this.onNext});
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +41,7 @@ class CustomTextForm extends StatelessWidget {
             vertical: 0,
             horizontal: kDefaultPadding,
           ),
-          hasFloatingPlaceholder: false,
         ),
-
         onFieldSubmitted: this.onNext,
       ),
     );

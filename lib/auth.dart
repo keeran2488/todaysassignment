@@ -69,10 +69,7 @@ class _LogInFormState extends State<LogInForm> {
 
   List<Widget> buildInputs() {
     return <Widget>[
-      Image(
-        width: double.maxFinite,
-        image: AssetImage('assets/images/hw.png')
-      ),
+      Image(width: double.maxFinite, image: AssetImage('assets/images/hw.png')),
       SizedBox(
         height: kDefaultPadding,
       ),
@@ -90,7 +87,7 @@ class _LogInFormState extends State<LogInForm> {
           return null;
         },
         onSaved: (input) => _email = input,
-        onNext: (x){
+        onNext: (x) {
           FocusScope.of(context).unfocus();
           FocusScope.of(context).requestFocus(_passwordFocus);
         },
@@ -110,7 +107,7 @@ class _LogInFormState extends State<LogInForm> {
           return null;
         },
         onSaved: (input) => _password = input,
-        onNext: (x){
+        onNext: (x) {
           FocusScope.of(context).unfocus();
           signIn();
         },
@@ -182,15 +179,20 @@ class _LogInFormState extends State<LogInForm> {
       formState.save();
 
       try {
-        showDialog(context: context, child: AlertDialog(
-          title: Text('Please wait...'),
-          content: Container(
-            height: 100,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ));
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Please wait...'),
+              content: Container(
+                height: 100,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            );
+          },
+        );
         if (_formType == FormType.login) {
           FirebaseUser user = (await FirebaseAuth.instance
                   .signInWithEmailAndPassword(
@@ -204,7 +206,7 @@ class _LogInFormState extends State<LogInForm> {
                       email: _email, password: _password))
               .user;
           print("User ID: ${user.email}");
-        Navigator.pushReplacementNamed(context, '/newUser');
+          Navigator.pushReplacementNamed(context, '/newUser');
         }
       } catch (e) {
         print("Error: ${e.message}");
@@ -215,7 +217,7 @@ class _LogInFormState extends State<LogInForm> {
                 title: Text("Try again!"),
                 content: Text("${e.message}"),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
