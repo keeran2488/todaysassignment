@@ -20,13 +20,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^0.1.2
-  cloud_firestore: ^0.13.2+1
-  firebase_auth: ^0.15.3
-  intl: ^0.16.0
-  firebase_messaging: ^6.0.9
-  image_picker: ^0.6.3+1
-  firebase_storage: ^3.1.1
+  cupertino_icons: ^1.0.4
+  cloud_firestore: ^3.1.7
+  firebase_auth: ^3.3.6
+  intl: ^0.17.0
+  firebase_messaging: ^11.2.6
+  image_picker: ^0.8.4+6
+  firebase_storage: ^10.2.6
 
 
 dev_dependencies:
