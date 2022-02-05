@@ -125,7 +125,7 @@ class _LogInFormState extends State<LogInForm> {
           title: 'Sign In',
           onPressed: signIn,
         ),
-        FlatButton(
+        TextButton(
           onPressed: moveToRegister,
           child: Text(
             "Doesn't have account? Sign up",

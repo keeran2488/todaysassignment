@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
-
 class AddAssignment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -77,14 +74,19 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
             ),
           ),
-          RaisedButton(
-            color: Colors.greenAccent,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.greenAccent,
+            ),
             child: Text("Save"),
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
-                await db
-                    .collection('Assignments').add({'Title': title, 'Subject': subject, 'created': FieldValue.serverTimestamp()});
+                await db.collection('Assignments').add({
+                  'Title': title,
+                  'Subject': subject,
+                  'created': FieldValue.serverTimestamp()
+                });
                 Navigator.pop(context);
               }
             },
@@ -95,18 +97,16 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 }
 
-
 class GetAssignments extends StatefulWidget {
   @override
   _GetAssignmentsState createState() => _GetAssignmentsState();
 }
 
 class _GetAssignmentsState extends State<GetAssignments> {
-
   final FirebaseMessaging _fcm = FirebaseMessaging();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
 
     _fcm.subscribeToTopic("assignmentNotifications");
@@ -118,7 +118,7 @@ class _GetAssignmentsState extends State<GetAssignments> {
           content: Text("New assignment added!"),
           backgroundColor: Colors.teal,
         );
-        Scaffold.of(context).showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
@@ -131,8 +131,6 @@ class _GetAssignmentsState extends State<GetAssignments> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +140,10 @@ class _GetAssignmentsState extends State<GetAssignments> {
         elevation: 0.0,
       ),
       body: StreamBuilder(
-        stream: Firestore.instance.collection('Assignments').orderBy("created", descending: true).snapshots(),
+        stream: Firestore.instance
+            .collection('Assignments')
+            .orderBy("created", descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return new Center(

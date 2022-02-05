@@ -11,11 +11,13 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: kDefaultPadding * 1.5),
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kDefaultPadding * 1.5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Colors.blue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(kDefaultPadding * 1.5),
+          ),
         ),
-        color: Colors.blue,
         onPressed: this.onPressed,
         child: Text(
           this.title,
